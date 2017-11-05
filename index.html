@@ -1,0 +1,39 @@
+<html ng-app="todoApp">
+<head>
+<meta charset="utf-8">
+    <title>2회차 angular JS</title>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"></link>
+    <link rel="stylesheet" href="todoStyle.css"></link>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <!-- angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="modules.js"></script>
+    <script src="controllers.js"></script>
+    <script src="directives.js"></script>
+    <script src="services.js"></script>
+</head>
+
+<body ng-controller="todoCtrl"> <!-- ng-controller="todoCtrl as todo" -->
+    <h1>To Do LIST</h1>
+    
+    <form ng-submit="add(newTodo_title)" name="todoForm">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="할 일 입력" ng-model="newTodo_title" minlength="3" required="required">
+            <span class="input-group-btn">
+                <input type="submit" class="btn btn-success" value="추가" />
+            </span>
+        </div>
+    </form>
+
+<hr/>
+
+    <ul class="list-unstyled">
+        <li ng-repeat="todo in data"> <!-- todo : 변수이름, data : scope를 의미한다 -->
+            <todo-item></todo-item>
+        </li>    
+    </ul>
+    
+</body>
+</html>
