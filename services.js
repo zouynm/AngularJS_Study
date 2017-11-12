@@ -7,7 +7,9 @@ Service : 분할하여 객체 지향 방식
 Provider : 내장함수 이용
 */
 
-angular.module('todoApp').factory('todoService', function($http){
+angular.module('todoApp')
+.constant('baseURL', 'http://loocalhost:9000/todolist')
+.factory('todoService', function($http, baseURL){
     var factory = {
         _setStorage : function(){
             localStorage.setItem("data", JSON.stringify(factory.data));
@@ -27,7 +29,7 @@ angular.module('todoApp').factory('todoService', function($http){
             }
             $http({
                 method : 'POST',
-                url : 'http://localhost:9000/todolist',
+                url : baseURL,
                 data : newTodo
             }).then(function success(response){
                 factory.data.push(response.data);    
@@ -42,7 +44,7 @@ angular.module('todoApp').factory('todoService', function($http){
            
             $http({
                 method : 'GET',
-                url : 'http://localhost:9000/todolist'
+                url : baseURL
             }).then(function success(response){
                 angular.copy(response.data, factory.data);
             });
@@ -52,7 +54,7 @@ angular.module('todoApp').factory('todoService', function($http){
         delete : function(todo){
             $http({
                 method : 'DELETE',
-                url : 'http://localhost:9000/todolist'+'/'+todo.id   //REST 방식에는 '?'를 사용하지 않는다
+                url : baseURL+'/'+todo.id   //REST 방식에는 '?'를 사용하지 않는다
             }).then(function success(){
                 console.log(todo)
                 factory.data.splice(factory.data.indexOf(todo), 1);
@@ -66,7 +68,7 @@ angular.module('todoApp').factory('todoService', function($http){
         update : function(todo){
             $http({
                 method : 'PUT',
-                url : 'http://localhost:9000/todolist'+'/'+todo.id,
+                url : baseURL+'/'+todo.id,
                 data : todo
             }).then(function success(response){
                 //console.log(response)
