@@ -7,7 +7,7 @@ Service : 분할하여 객체 지향 방식
 Provider : 내장함수 이용
 */
 
-angular.module('todoApp').factory('todoService', function(){
+angular.module('todoApp').factory('todoService', function($http){
     var factory = {
         _setStorage : function(){
             localStorage.setItem("data", JSON.stringify(factory.data));
@@ -25,22 +25,53 @@ angular.module('todoApp').factory('todoService', function(){
                 compeleted : false,
                 createdAt : Date.now()
             }
-            factory.data.push(newTodo);
-            factory._setStorage();
+            $http({
+                method : 'POST',
+                url : 'http://localhost:9000/todolist',
+                data : newTodo
+            }).then(function success(response){
+                factory.data.push(response.data);    
+            });
+            //factory.data.push(newTodo);
+            //factory._setStorage();
         },
 
         read : function(){
-            angular.copy(factory._getStorage(), factory.data); // _getStorage()에서 가져와서 factory.data에 값을 복사한다.
+            // angular.copy(factory._getStorage(), factory.data); // _getStorage()에서 가져와서 factory.data에 값을 복사한다.
+            // return factory.data;
+           
+            $http({
+                method : 'GET',
+                url : 'http://localhost:9000/todolist'
+            }).then(function success(response){
+                angular.copy(response.data, factory.data);
+            });
             return factory.data;
         },
 
-        delete : function(index){
-            factory.data.splice(index, 1);
-            factory._setStorage();
+        delete : function(todo){
+            $http({
+                method : 'DELETE',
+                url : 'http://localhost:9000/todolist'+'/'+todo.id   //REST 방식에는 '?'를 사용하지 않는다
+            }).then(function success(){
+                console.log(todo)
+                factory.data.splice(factory.data.indexOf(todo), 1);
+                alert('삭제가 성공되었습니다.');
+                location.reload();
+            });
+            // factory.data.splice(index, 1);
+            // factory._setStorage();
         },
 
-        update : function(){
-            factory._setStorage();
+        update : function(todo){
+            $http({
+                method : 'PUT',
+                url : 'http://localhost:9000/todolist'+'/'+todo.id,
+                data : todo
+            }).then(function success(response){
+                //console.log(response)
+            });
+            // factory._setStorage();
         }
     };
 

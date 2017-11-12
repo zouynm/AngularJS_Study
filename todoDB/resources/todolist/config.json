@@ -1,0 +1,29 @@
+{
+	"type": "Collection",
+	"properties": {
+		"title": {
+			"name": "title",
+			"type": "string",
+			"typeLabel": "string",
+			"required": true,
+			"id": "title",
+			"order": 0
+		},
+		"completed": {
+			"name": "completed",
+			"type": "boolean",
+			"typeLabel": "boolean",
+			"required": false,
+			"id": "completed",
+			"order": 1
+		},
+		"createdAt": {
+			"name": "createdAt",
+			"type": "date",
+			"typeLabel": "date",
+			"required": true,
+			"id": "createdAt",
+			"order": 2
+		}
+	}
+}
